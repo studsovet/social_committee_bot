@@ -1,13 +1,21 @@
 import httplib2
-from pprint import pprint
 import apiclient
 from oauth2client.service_account import ServiceAccountCredentials
-
 
 # Файл, полученный в Google Developer Console
 CREDENTIALS_FILE = "creds.json"
 # ID Google Sheets документа (взят из URL)
 spreadsheet_id = "17StUoAAB_5KP77grySt4n62B52K7QRGJnrwYUBD-dU0"
+
+
+# class MemoryCache(Cache):
+#     _CACHE = {}
+#
+#     def get(self, url):
+#         return MemoryCache._CACHE.get(url)
+#
+#     def set(self, url, content):
+#         MemoryCache._CACHE[url] = content
 
 
 # Авторизуемся и получаем service — экземпляр доступа к API
@@ -17,14 +25,15 @@ def auth_gsheet():
         ["https://www.googleapis.com/auth/spreadsheets",
          "https://www.googleapis.com/auth/drive"])
     httpAuth = credentials.authorize(httplib2.Http())
-    return apiclient.discovery.build("sheets", "v4", http=httpAuth)
+    return apiclient.discovery.build("sheets", "v4", http=httpAuth, cache_discovery=False)
 
 
 class GSheets:
     def __init__(self):
         self.service = auth_gsheet()
 
-    def write_user_to_gsheet(self, chat_id, name, username, campus, problem_area, problem, contact, text_problem, language):
+    def write_user_to_gsheet(self, chat_id, name, username, campus, problem_area, problem, contact, text_problem,
+                             language):
         count_applications = self.get_count_applications()
         values = self.service.spreadsheets().values().batchUpdate(
             spreadsheetId=spreadsheet_id,
@@ -33,8 +42,9 @@ class GSheets:
                 "data": [
                     {"range": "A{}:I{}".format(count_applications + 2, count_applications + 2),
                      "majorDimension": "ROWS",
-                     "values": [[chat_id, name, username, campus, problem_area, problem, contact, text_problem, language]]},
-            ]
+                     "values": [
+                         [chat_id, name, username, campus, problem_area, problem, contact, text_problem, language]]},
+                ]
             }
         ).execute()
         self.write_count_applications(count_applications + 1)
