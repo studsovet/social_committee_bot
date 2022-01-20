@@ -21,7 +21,7 @@ class Keyboard:
                                 'Неудобство пространств', 'Другое'],
                                ['Internet', 'Low-quality infrastructure objects', 'Inconvenience of spaces', 'Other']]
         self.food = [
-            ['Неудовлетворительное качество питания', 'Отсутсвие соответствия Заявленным характеристикам блюда',
+            ['Неудовлетворительное качество питания', 'Отсутсвие соответствия заявленным характеристикам блюда',
              'Неудовлетворительное содержание столовой', 'Другое'],
             ['Unsatisfactory food quality', 'The dish does not correspond to the declared characteristics',
              'Poor canteen maintenance', 'Other']]
