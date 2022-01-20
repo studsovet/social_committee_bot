@@ -99,3 +99,9 @@ def clear_cell(chat_id, table, column):
                                                                                               chat_id))
     conn.commit()
     cur.close()
+
+
+def get_time_application(chat_id):
+    cur, conn = get_connection()
+    cur.execute("SELECT MAX(date) from applications WHERE chat_id = '{}'".format(chat_id))
+    return cur.fetchone()[0]

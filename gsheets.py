@@ -1,22 +1,13 @@
 import httplib2
 import apiclient
-import db
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Файл, полученный в Google Developer Console
+import db
+
 CREDENTIALS_FILE = "creds.json"
 # ID Google Sheets документа (взят из URL)
 spreadsheet_id = "17StUoAAB_5KP77grySt4n62B52K7QRGJnrwYUBD-dU0"
-
-
-# class MemoryCache(Cache):
-#     _CACHE = {}
-#
-#     def get(self, url):
-#         return MemoryCache._CACHE.get(url)
-#
-#     def set(self, url, content):
-#         MemoryCache._CACHE[url] = content
 
 
 # Авторизуемся и получаем service — экземпляр доступа к API
@@ -26,7 +17,7 @@ def auth_gsheet():
         ["https://www.googleapis.com/auth/spreadsheets",
          "https://www.googleapis.com/auth/drive"])
     httpAuth = credentials.authorize(httplib2.Http())
-    return apiclient.discovery.build("sheets", "v4", http=httpAuth, cache_discovery=False)
+    return apiclient.discovery.build("sheets", "v4", http=httpAuth)
 
 
 class GSheets:
@@ -35,19 +26,21 @@ class GSheets:
 
     def write_user_to_gsheet(self, chat_id, name, username, campus, problem_area, problem, contact, text_problem,
                              language):
+        count_applications = self.get_count_applications()
         values = self.service.spreadsheets().values().batchUpdate(
             spreadsheetId=spreadsheet_id,
             body={
                 "valueInputOption": "USER_ENTERED",
                 "data": [
-                    {"range": "A{}:I{}".format(db.get_count_applications() + 1, db.get_count_applications() + 1),
+                    {"range": "A{}:J{}".format(count_applications + 2, count_applications + 2),
                      "majorDimension": "ROWS",
                      "values": [
-                         [chat_id, name, username, campus, problem_area, problem, contact, text_problem, language]]},
+                         [chat_id, name, username, campus, problem_area, problem, contact, text_problem, language,
+                          db.get_time_application(chat_id)]]},
                 ]
             }
         ).execute()
-        self.write_count_applications(db.get_count_applications())
+        self.write_count_applications(count_applications + 1)
 
     def get_count_applications(self):
         val = self.service.spreadsheets().values().get(

@@ -69,7 +69,7 @@ async def choose_language(message: types.Message, state: FSMContext):
 async def choose_problem_area(message: types.Message, state: FSMContext):
     if message.text in keyboard.problem_area[db.get_data_from_applications(message.chat.id, 'language')]:
         db.add_data_in_applications(message.chat.id, 'problem_area', message.text)
-        if message.text in ['Соц. обеспечение', 'Учебный корпус', 'Dormitory', 'Campus']:
+        if message.text in ['Соц. обеспечение', 'Учебный корпус', 'Social security', 'Campus']:
             await bot.send_message(message.chat.id, bot_messages.choose_problem(
                 db.get_data_from_applications(message.chat.id, 'language')),
                                    reply_markup=keyboard.kb_infrastructure(
