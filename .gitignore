@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 .idea
 Data_for_bot.txt
+creds.json
