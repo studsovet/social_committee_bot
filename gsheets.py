@@ -26,13 +26,13 @@ class GSheets:
 
     def write_user_to_gsheet(self, chat_id, name, username, campus, problem_area, problem, contact, text_problem,
                              language):
-        count_applications = self.get_count_applications()
+        count_applications = db.get_count_applications()
         values = self.service.spreadsheets().values().batchUpdate(
             spreadsheetId=spreadsheet_id,
             body={
                 "valueInputOption": "USER_ENTERED",
                 "data": [
-                    {"range": "A{}:J{}".format(count_applications + 2, count_applications + 2),
+                    {"range": "A{}:J{}".format(count_applications + 1, count_applications + 1),
                      "majorDimension": "ROWS",
                      "values": [
                          [chat_id, name, username, campus, problem_area, problem, contact, text_problem, language,
@@ -40,15 +40,6 @@ class GSheets:
                 ]
             }
         ).execute()
-        self.write_count_applications(count_applications + 1)
-
-    def get_count_applications(self):
-        val = self.service.spreadsheets().values().get(
-            spreadsheetId=spreadsheet_id,
-            range='L1',
-            majorDimension='ROWS'
-        ).execute()
-        return int(val['values'][0][0])
 
     def write_count_applications(self, count):
         val = self.service.spreadsheets().values().batchUpdate(

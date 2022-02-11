@@ -33,17 +33,6 @@ def get_data_from_applications(chat_id, column):
     return ans
 
 
-# def get_data_from_applications_test(chat_id, column):
-#     cur, conn = get_connection()
-#     cur.execute("SELECT {} from applications WHERE chat_id = '{}'"
-#                 "AND date = (SELECT MAX(date) from applications WHERE chat_id = '{}')".format(column, chat_id, chat_id))
-#     ans = cur.fetchone()
-#     print(ans, chat_id, column)
-#     ans = ans[0]
-#     cur.close()
-#     return ans
-
-
 def get_data_from_users(chat_id, column):
     cur, conn = get_connection()
     cur.execute("SELECT {} from users WHERE chat_id = '{}'".format(column, chat_id))
