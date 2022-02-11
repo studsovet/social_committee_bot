@@ -7,7 +7,7 @@ import db
 
 CREDENTIALS_FILE = "creds.json"
 # ID Google Sheets документа (взят из URL)
-spreadsheet_id = "17StUoAAB_5KP77grySt4n62B52K7QRGJnrwYUBD-dU0"
+spreadsheet_id = ""
 
 
 # Авторизуемся и получаем service — экземпляр доступа к API

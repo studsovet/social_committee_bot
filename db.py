@@ -7,7 +7,16 @@ path_to_db = 'database.db'
 def get_connection():
     conn = sqlite3.connect(path_to_db)
     cur = conn.cursor()
+    cur.execute('''CREATE TABLE IF NOT EXISTS "applications" 
+                ( "id" INTEGER, "date" INTEGER, "chat_id" TEXT, "campus" TEXT, 
+                "problem_area" TEXT, "problem" TEXT, "contact" TEXT, "text_problem" TEXT, 
+                "language" INTEGER, PRIMARY KEY("id") )''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS "users" ( "id" INTEGER, "chat_id" INTEGER, "name" TEXT, 
+                "username" TEXT, "language" TEXT, PRIMARY KEY("id") )''')
+    conn.commit()
     return cur, conn
+
+
 
 
 def add_data_in_applications(chat_id, column, data):

@@ -12,8 +12,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-token_tg = "2002661300:AAFiaJMl0qs9n_9Foy1jLhe1QQXKmaXXcow"
-token_vk = "e28bf8d579d53aafd83a26361b662b11d1475c810443de2baea4e0fc20a2ae3de0319d1b8f7ed19905e88"
+token_tg = ""
+token_vk = ""
 
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
