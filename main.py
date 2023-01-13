@@ -3,6 +3,7 @@ import random
 import asyncio
 import logging
 import db
+import configparser
 from gsheets import GSheets
 from user import User
 from keyboard import Keyboard
@@ -12,8 +13,11 @@ from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-token_tg = ""
-token_vk = ""
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+token_tg = config['default']['TG_TOKEN']
+token_vk = config['default']['VK_TOKEN']
 
 logging.basicConfig(level=logging.INFO)
 loop = asyncio.get_event_loop()
